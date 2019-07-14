@@ -18,18 +18,6 @@
     	<div class="carousel-btn-prev"></div>
     	<div class="carousel-btn-next"></div>
     </div>
-#-------presentation.json----------------#
-    "ah-custom-carousel": {
-        "id": "ah-custom-carousel",
-        "files": {
-            "scripts": [
-                "modules/rainmaker_modules/ah-custom-carousel/ah-custom-carousel.js"
-            ],
-            "styles": [
-                "modules/rainmaker_modules/ah-custom-carousel/ah-custom-carousel.styl"
-            ]
-        }
-    }
 
 #----Carousel initialize-----------#
     var carousel = new Carousel('#carousel',{
@@ -109,9 +97,3 @@ getActiveItem() - get active slide
         prevEl: '.carousel-btn-prev'
       }
     });
-
-##---------- Changelog
-```
-*   v.0.0.1
-        02.08.2018 - Created ah-custom-carousel module
-```
