@@ -58,14 +58,14 @@ function Carousel(element, options) {
 		'tapPagination': [
 			{
 				'target': this.carousel,
-				'event': 'tap',
+				'event': 'click',
 				'handler': this._eventPagination.bind(this)
 			}
 		],
 		'tapNavigation': [
 			{
 				'target': this.carousel,
-				'event': 'tap',
+				'event': 'click',
 				'handler': this._navigationEvent.bind(this)
 			}
 		]
