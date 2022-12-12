@@ -1,4 +1,4 @@
-![alt text](https://github.com/[DmytroKravchuk]/[3Dcarousel]/blob/[master]/preview.png?raw=true)
+![preview](https://github.com/[DmytroKravchuk]/[3Dcarousel]/blob/[master]/preview.png?raw=true)
 
 # Carousel full html layout
     <div id="carousel" class="">
