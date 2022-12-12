@@ -1,0 +1,21 @@
+{
+  "name": "3dcarousel",
+  "version": "1.0.0",
+  "description": "![preview](https://github.com/DmytroKravchuk/3Dcarousel/blob/master/assets/preview.gif?raw=true)",
+  "main": "ah-custom-carousel.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DmytroKravchuk/3Dcarousel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DmytroKravchuk/3Dcarousel/issues"
+  },
+  "homepage": "https://github.com/DmytroKravchuk/3Dcarousel#readme"
+}

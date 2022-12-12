@@ -46,12 +46,12 @@ function Carousel(element, options) {
 		'touch': [
 			{
 				'target': this.props.container,
-				'event': 'swipeleft',
+				'event': 'swipe-left',
 				'handler': this._swipeLeft.bind(this)
 			},
 			{
 				'target': this.props.container,
-				'event': 'swiperight',
+				'event': 'swipe-right',
 				'handler': this._swipeRight.bind(this)
 			}
 		],
@@ -226,16 +226,15 @@ Carousel.prototype.navigationTo = function (targets) {
 
 Carousel.prototype._swipeLeft = function startHandler(e) {
 	e.preventDefault();
-	this.nextSlide();
+	this.prevSlide();
 };
 
 Carousel.prototype._swipeRight = function(e){
 	e.preventDefault();
-	this.prevSlide();
+	this.nextSlide();
 };
 
 Carousel.prototype.swipe = function () {
-	this._touchMove = false;
 	this.events.touch.forEach(function(item) {
 		if(item.target === this.props.container){
 			item.target.addEventListener(item.event, item.handler);
@@ -279,3 +278,5 @@ Carousel.prototype.destroy = function () {
 		});
 	}
 };
+
+export {Carousel}

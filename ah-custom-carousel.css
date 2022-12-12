@@ -27,6 +27,7 @@
 	color: var(--brand-white-color);
 	background: var(--brand-black-color);
 	transition: 0.3s;
+	cursor: grab;
 }
 
 .carousel-item.active {
@@ -50,6 +51,7 @@
 	padding: 5px 10px;
 	border-radius: 5px;
 	background: var(--brand-black-color);
+	cursor: pointer;
 }
 
 .btn-item.active {
