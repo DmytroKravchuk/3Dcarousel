@@ -1,8 +1,8 @@
 {
   "name": "3dcarousel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "![preview](https://github.com/DmytroKravchuk/3Dcarousel/blob/master/assets/preview.gif?raw=true)",
-  "main": "ah-custom-carousel.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,8 +11,11 @@
     "type": "git",
     "url": "git+https://github.com/DmytroKravchuk/3Dcarousel.git"
   },
-  "keywords": [],
-  "author": "",
+  "dependencies": {
+    "swipe-dk": "1.0.3"
+  },
+  "keywords": ["3d carousel", "carousel", "3d carousel js", "simple 3d carousel", "3d carousel vanila js"],
+  "author": "Dmytro Kravchuk",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/DmytroKravchuk/3Dcarousel/issues"
