@@ -12,7 +12,7 @@
     "url": "git+https://github.com/DmytroKravchuk/3Dcarousel.git"
   },
   "dependencies": {
-    "swipe-dk": "1.0.3"
+    "swipe-dk": "^1.0.3"
   },
   "keywords": ["3d carousel", "carousel", "3d carousel js", "simple 3d carousel", "3d carousel vanila js"],
   "author": "Dmytro Kravchuk",
