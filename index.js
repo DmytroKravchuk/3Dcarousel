@@ -120,7 +120,7 @@ Carousel.prototype._setDefaultStyles = function () {
 	this.props.container.style.cssText = `position: relative;width: 100%;height: 300px; margin: 0 auto;`;
 	this.props.items.forEach(function (item) {item.style.cssText = `position: absolute; left: 50%; top: 50%; width: 200px; height: 100px; display: flex; align-items: center; justify-content: center;
 	background: #ccc;`})
-	this.props.dots.forEach(item => item.style.cssText = `width: 5px; height: 5px`);
+	this.props.dots.forEach(item => item.style.cssText = `width: 5px; height: 5px; background: #ccc;`);
 	this.props.navigation.prevEl.style.cssText = `position: absolute; top: 50%; transform: translateY(-50%); left: 20px; width: 15px; height: 20px; background: #fefefe;`;
 	this.props.navigation.nextEl.style.cssText = `position: absolute; top: 50%; transform: translateY(-50%); right: 20px; width: 15px; height: 20px; background: #fefefe;`;
 }
@@ -298,11 +298,11 @@ Carousel.prototype._goToSlide = function (isForward) {
 };
 
 Carousel.prototype.prevSlide = function () {
-	this._goToSlide(true);
+	this._goToSlide(false);
 };
 
 Carousel.prototype.nextSlide = function () {
-	this._goToSlide(false);
+	this._goToSlide(true);
 };
 
 /*---------Carousel autoplay-------------*/
