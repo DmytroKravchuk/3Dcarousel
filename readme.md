@@ -1,6 +1,9 @@
 ![preview](https://github.com/DmytroKravchuk/3Dcarousel/blob/master/assets/preview.gif?raw=true)
 
 # 3D Carousel (Vanilla JS)
+
+    import "3d-carousel-vanilla"
+
     <div id="carousel">
     	<div class="carousel-container">
     		<div class="carousel-item">Slide 1</div>
