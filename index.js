@@ -1,4 +1,6 @@
-/*-------util functions----------*/
+import "swipe-dk"
+
+/*-------utils----------*/
 
 function degToRad (value) {
 	return value * (Math.PI / 180);
@@ -20,22 +22,28 @@ function htmlCollectionToArray(collections) {
 
 function Carousel(element, options) {
 	this.carousel = document.querySelector(element);
+	const carouselItems = htmlCollectionToArray(this.carousel.querySelectorAll(options.items));
+
+	const {controlsContainer, navigation} = this._createControlElements(carouselItems)
 
 	this.props = {
-		container: this.carousel.getElementsByClassName('carousel-container')[0],
-		items: htmlCollectionToArray(this.carousel.querySelectorAll(options.items)),
-		buttons: htmlCollectionToArray(this.carousel.querySelectorAll(options.button)),
-		navigation: options.navigation,
+		container: this.carousel.querySelector(options.container),
+		items: carouselItems,
+		dotsContainer: controlsContainer,
+		dots: htmlCollectionToArray(controlsContainer.childNodes),
+		navigation: navigation,
 		context: options.context || {
 			contextX: 1,
-			contextY: 1
+			contextY: 0.6
 		},
 		currentIndexSlide: options.firstSlide || 0,
 		scale: options.scale || 1,
 		angle: 0,
 		step: options.step || 1,
 		autoplay: options.autoplay,
-		fullCircle: 360
+		transition: options.transition || 0.3,
+		fullCircle: 360,
+		resetDefaultStyles: options.resetDefaultStyles || false,
 	};
 
 	if(!this.props.container){
@@ -71,10 +79,50 @@ function Carousel(element, options) {
 		]
 	};
 
+	if (!this.props.resetDefaultStyles) {
+		this._setDefaultStyles()
+	}
+
 	this.init();
 }
 
 /*--------------Init-----------------*/
+
+Carousel.prototype._createControlElements = function (carouselItems) {
+	const controlsContainer = document.createElement('div');
+	controlsContainer.classList.add('carousel-controls-wrapper');
+	carouselItems.forEach(() => {
+		const dot = document.createElement('button');
+		dot.classList.add('carousel-control-item')
+		controlsContainer.append(dot)
+	})
+	this.carousel.append(controlsContainer);
+
+	const navPrev = document.createElement('button');
+	navPrev.classList.add('carousel-nav-prev');
+	const navNext = document.createElement('button');
+	navNext.classList.add('carousel-nav-prev');
+
+	this.carousel.append(navPrev);
+	this.carousel.append(navNext);
+
+	return {
+		controlsContainer,
+		navigation: {
+			prevEl: navPrev,
+			nextEl: navNext,
+		}
+	}
+}
+
+Carousel.prototype._setDefaultStyles = function () {
+	this.carousel.style.position = 'relative';
+	this.props.container.style.cssText = `position: relative;width: 100%;height: 300px; margin: 0 auto;`;
+	this.props.items.forEach(function (item) {item.style.cssText = `position: absolute; left: 50%; top: 50%; width: 200px; height: 100px; display: flex; align-items: center; justify-content: center;
+	background: #ccc;`})
+	this.props.navigation.prevEl.style.cssText = `position: absolute; top: 50%; transform: translateY(-50%); left: 20px; with: 15px; height: 20px; background: #fefefe;`;
+	this.props.navigation.nextEl.style.cssText = `position: absolute; top: 50%; transform: translateY(-50%); right: 20px; with: 15px; height: 20px; background: #fefefe;`;
+}
 
 Carousel.prototype.setAngle = function () {
 	this.props.angle = this.props.fullCircle - (this.currentIndexSlide() * this._itemDegreeSeparation);
@@ -106,28 +154,29 @@ Carousel.prototype._itemDeg = function(angle, index){
 };
 
 Carousel.prototype._itemPosition = function(itemDeg){
-	var positionItem = {};
+	const positionItem = {};
 	positionItem.posY = ((1 + Math.sin(degToRad(itemDeg))) * ((this._rangeX / 2) * this.props.context.contextX)) + (this._rangeX / 2) * (1 - this.props.context.contextX);
 	positionItem.posX = ((1 + Math.cos(degToRad(itemDeg))) * ((this._rangeY / 2) * this.props.context.contextY)) + (this._rangeY / 2) * (1 - this.props.context.contextY);
 	return positionItem;
 };
 
 Carousel.prototype.animate = function (elem, index, angle) {
-	var itemDeg = this._itemDeg(angle, index);
-	var positionItem = this._itemPosition(itemDeg);
+	const itemDeg = this._itemDeg(angle, index);
+	const positionItem = this._itemPosition(itemDeg);
 
-	var ITEMCOS = 0.5 + (Math.cos(degToRad(itemDeg)) * 0.5);
+	const ITEMCOS = 0.5 + (Math.cos(degToRad(itemDeg)) * 0.5);
 
-	var zIndex = 1 + Math.round(ITEMCOS * 100);
-	var itemScale = 1 - (1 - this.props.scale) + (ITEMCOS * (1 - this.props.scale));
-	var itemOpacity = 1 - (1 - this.props.opacity) + (ITEMCOS * (1 - this.props.opacity));
+	const zIndex = 1 + Math.round(ITEMCOS * 100);
+	const itemScale = 1 - (1 - this.props.scale) + (ITEMCOS * (1 - this.props.scale));
+	const itemOpacity = 1 - (1 - this.props.opacity) + (ITEMCOS * (1 - this.props.opacity));
 
 	elem.style.left = pxToPercent(this.containerW, positionItem.posY);
 	elem.style.top = pxToPercent(this.containerH, positionItem.posX);
 	elem.style.zIndex = zIndex;
-	elem.style['moztransform'] = 'scale(' + itemScale + ')';
-	elem.style.transform = 'scale(' + itemScale + ')';
+	elem.style['moztransform'] = `scale(${itemScale})`;
+	elem.style.transform = `scale(${itemScale})`;
 	elem.style.opacity = itemOpacity;
+	elem.style.transition = `${this.props.transition}s`;
 };
 
 /*-----Set active item------*/
@@ -156,7 +205,7 @@ Carousel.prototype.currentIndexSlide = function() {
 	return this.props.currentIndexSlide;
 };
 Carousel.prototype._validate = function(step){
-	var index = this.currentIndexSlide();
+	let index = this.currentIndexSlide();
 	index += step;
 	if (index >= this.countItems) {
 		index -= this.countItems;
@@ -168,8 +217,8 @@ Carousel.prototype._validate = function(step){
 
 Carousel.prototype.setActiveItem = function () {
 	this._activeElem(this.props.items);
-	if (this.props.buttons) {
-		this._activeElem(this.props.buttons);
+	if (this.props.dots) {
+		this._activeElem(this.props.dots);
 	}
 };
 
@@ -191,11 +240,11 @@ Carousel.prototype._setActivePagination = function(index){
 };
 
 Carousel.prototype._eventPagination = function(e){
-	if(this.props.buttons.length !== 0){
-		var index = this.props.buttons.indexOf(e.target);
+	if(this.props.dots.length !== 0){
+		const index = this.props.dots.indexOf(e.target);
 
-		if(e.target === this.props.buttons[index]){
-			this._setActivePagination(index, this.props.buttons);
+		if(e.target === this.props.dots[index]){
+			this._setActivePagination(index, this.props.dots);
 		}
 	}
 };
@@ -203,8 +252,7 @@ Carousel.prototype._eventPagination = function(e){
 /*----------- navigation-----------*/
 Carousel.prototype._navigationEvent = function(event){
 	if(this.props.navigation) {
-		var prevEl = document.querySelector(this.props.navigation.prevEl);
-		var nextEl = document.querySelector(this.props.navigation.nextEl);
+		const {prevEl, nextEl} = this.props.navigation;
 		if (event.target === prevEl) {
 			this.prevSlide();
 		} else if (event.target === nextEl) {
@@ -219,7 +267,6 @@ Carousel.prototype.navigationTo = function (targets) {
 			item.target.addEventListener(item.event, item.handler);
 		});
 	});
-
 };
 
 /*----------Carousel swipe------------*/
@@ -244,8 +291,8 @@ Carousel.prototype.swipe = function () {
 
 /*------goToSlide-----*/
 Carousel.prototype._goToSlide = function (isForward) {
-	var multiplier = isForward ? -1 : 1;
-	var index = this._validate(multiplier * this.props.step);
+	const multiplier = isForward ? -1 : 1;
+	const index = this._validate(multiplier * this.props.step);
 	this.engine(index);
 };
 
@@ -272,7 +319,7 @@ Carousel.prototype.stopAutoplay = function(){
 
 /*------destroy-------*/
 Carousel.prototype.destroy = function () {
-	for(element in this.events){
+	for(const element in this.events){
 		htmlCollectionToArray(this.events[element]).forEach(function (item) {
 			item.target.removeEventListener(item.event, item.handler);
 		});
