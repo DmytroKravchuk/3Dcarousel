@@ -1,6 +1,6 @@
 {
   "name": "3d-carousel-vanilla",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "![preview](https://github.com/DmytroKravchuk/3Dcarousel/blob/master/assets/preview.gif?raw=true)",
   "main": "index.js",
   "type": "module",
