@@ -101,7 +101,7 @@ Carousel.prototype._createControlElements = function (carouselItems) {
 	const navPrev = document.createElement('button');
 	navPrev.classList.add('carousel-nav-prev');
 	const navNext = document.createElement('button');
-	navNext.classList.add('carousel-nav-prev');
+	navNext.classList.add('carousel-nav-next');
 
 	this.carousel.append(navPrev);
 	this.carousel.append(navNext);
@@ -229,7 +229,6 @@ Carousel.prototype.getActiveItem = function () {
 /*------Carousel items position---------*/
 
 Carousel.prototype.setItemPosition = function (itemList, angle) {
-
 	itemList.forEach(function (element, index) {
 		this.animate(element, index, angle);
 	}.bind(this));
