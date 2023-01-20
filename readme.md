@@ -1,6 +1,6 @@
 # 3D Carousel (Vanilla JS)
 
-![preview](https://github.com/DmytroKravchuk/3Dcarousel/blob/master/assets/preview.gif?raw=true)
+![preview](https://github.com/DmytroKravchuk/3Dcarousel/blob/master/assets/preview.jpg?raw=true)
 
     import { Carousel } from "3d-carousel-vanilla";
 #
